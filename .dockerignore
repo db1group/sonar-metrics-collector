@@ -1,0 +1,29 @@
+node_modules/
+dist/
+coverage/
+
+# Arquivos de configuração local
+.env
+.env.local
+.env.*.local
+
+# Arquivos de log
+*.log
+logs/
+log/
+
+# Arquivos de backup
+*.bak
+*.backup
+*.swp
+*.swo
+
+# Arquivos temporários
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# Outros arquivos
+.DS_Store
+Thumbs.db

@@ -1,0 +1,6 @@
+{
+    "sonarlint.connectedMode.project": {
+        "connectionId": "Hervis Connection DB1 Pix",
+        "projectKey": "engineering-metrics-collector"
+    }
+}
