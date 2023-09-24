@@ -17,4 +17,5 @@ export enum QualityMeasuresValues {
   B = 12.495,
   C = 8.33,
   D = 4.165,
+  E = 0,
 }

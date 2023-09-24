@@ -28,9 +28,12 @@ describe('ManutenabilityMeasure', () => {
     expect(manutenabilityMeasure.getQualityRatio()).toBe(
       QualityMeasuresValues.D,
     );
-    const manutenabilityMeasure2 = new ManutenabilityMeasure(5);
-    expect(manutenabilityMeasure2.getQualityRatio()).toBe(
-      QualityMeasuresValues.D,
+  });
+
+  it('should return E quality ratio for value 0', () => {
+    const manutenabilityMeasure = new ManutenabilityMeasure(0);
+    expect(manutenabilityMeasure.getQualityRatio()).toBe(
+      QualityMeasuresValues.E,
     );
   });
 });

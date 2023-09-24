@@ -16,6 +16,6 @@ export class SecurityReviewMeasure implements QualityMeasures {
       3: QualityMeasuresValues.C,
       4: QualityMeasuresValues.D,
     };
-    return ratio[this.value] || QualityMeasuresValues.D;
+    return ratio[this.value] || QualityMeasuresValues.E;
   }
 }

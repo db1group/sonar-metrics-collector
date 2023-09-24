@@ -29,4 +29,11 @@ describe('CoverageQualityMeasure', () => {
       QualityMeasuresValues.D,
     );
   });
+
+  it('should return E quality ratio for coverage value = 0', () => {
+    const coverageQualityMeasure = new CoverageQualityMeasure(0);
+    expect(coverageQualityMeasure.getQualityRatio()).toBe(
+      QualityMeasuresValues.E,
+    );
+  });
 });

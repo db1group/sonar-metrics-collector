@@ -20,7 +20,7 @@ describe('CodeQualityService', () => {
     );
 
     expect(qualityMeasures).toEqual({
-      value: 16.6666,
+      value: 16.67,
       projects: ['test'],
     });
   });
@@ -43,7 +43,30 @@ describe('CodeQualityService', () => {
     );
 
     expect(qualityMeasures).toEqual({
-      value: 16.6666,
+      value: 16.67,
+      projects: ['test'],
+    });
+  });
+
+  test('Should generate value with coverage 0', async () => {
+    const qualityProvider: QualityProvider = {
+      getMetricsDataFromProjectKey: () => {
+        const coverageMetric = new CoverageQualityMeasure(0);
+        return Promise.resolve([coverageMetric]);
+      },
+      getProjectsFromProjectKeyName: () => {
+        return Promise.resolve(['test']);
+      },
+    };
+    const codeQualityService = new CodeQualityService(qualityProvider);
+
+    const qualityMeasures = await codeQualityService.generateQualityMeasure(
+      '',
+      'test',
+    );
+
+    expect(qualityMeasures).toEqual({
+      value: 0,
       projects: ['test'],
     });
   });

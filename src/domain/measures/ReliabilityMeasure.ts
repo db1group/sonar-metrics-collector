@@ -17,6 +17,6 @@ export class ReliabilityMeasure implements QualityMeasures {
       4: QualityMeasuresValues.D,
     };
 
-    return ratio[this.value] || QualityMeasuresValues.D;
+    return ratio[this.value] || QualityMeasuresValues.E;
   }
 }

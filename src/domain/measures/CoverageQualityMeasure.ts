@@ -27,6 +27,10 @@ export class CoverageQualityMeasure implements QualityMeasures {
       return QualityMeasuresValues.C;
     }
 
-    return QualityMeasuresValues.D;
+    if (this.coverageValue > 0) {
+      return QualityMeasuresValues.D;
+    }
+
+    return QualityMeasuresValues.E;
   }
 }

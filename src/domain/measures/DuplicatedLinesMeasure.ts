@@ -10,15 +10,18 @@ export class DuplicatedLinesMeasure implements QualityMeasures {
   constructor(private readonly value: number) {}
 
   getQualityRatio(): number {
-    if (this.value <= 5) {
+    if (this.value <= 3) {
       return QualityMeasuresValues.A;
     }
-    if (this.value <= 8) {
+    if (this.value <= 5) {
       return QualityMeasuresValues.B;
     }
-    if (this.value <= 10) {
+    if (this.value <= 7) {
       return QualityMeasuresValues.C;
     }
-    return QualityMeasuresValues.D;
+    if (this.value <= 10) {
+      return QualityMeasuresValues.D;
+    }
+    return QualityMeasuresValues.E;
   }
 }

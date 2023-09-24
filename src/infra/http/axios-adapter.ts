@@ -7,7 +7,6 @@ export class AxiosAdapter implements HttpClient {
     private readonly baseUrl: string,
     private readonly token: string,
   ) {
-    console.log('baseUrl', baseUrl);
     this.http = axios.create({
       baseURL: this.baseUrl,
     });
@@ -15,7 +14,6 @@ export class AxiosAdapter implements HttpClient {
   }
 
   private base64Encode() {
-    console.log('token', this.token);
     const clientId = this.token;
     const credentials = `${clientId}:`;
     return Buffer.from(credentials).toString('base64');
