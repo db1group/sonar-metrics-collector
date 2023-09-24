@@ -1,5 +1,5 @@
 import { Controller, Get, Query, ValidationPipe } from '@nestjs/common';
-import { CodeQualityService } from '../aplication/code-quality.service';
+import { CodeQualityService } from '../application/code-quality.service';
 import { QualityMeasureDto } from './quality-measure.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { AxiosAdapter } from '../infra/http/axios-adapter';
