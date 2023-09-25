@@ -12,26 +12,39 @@ import { SecurityReviewMeasure } from '../../domain/measures/SecurityReviewMeasu
 
 export class SonarAdapterMetrics {
   constructor(private readonly sonarResponse: SonarMetricResponse) {}
-
   execute(): QualityMeasures[] {
-    return this.sonarResponse.component.measures.map((measures) => {
-      switch (measures.metric) {
-        case QualityMeasuresTypes.RELIABILITY_RATING:
-          return new ReliabilityMeasure(Number(measures.value));
-        case QualityMeasuresTypes.COVERAGE:
-          return new CoverageQualityMeasure(Number(measures.value));
-        case QualityMeasuresTypes.MANUTENABILITY_RATING:
-          return new ManutenabilityMeasure(Number(measures.value));
-        case QualityMeasuresTypes.SECURITY_RATING:
-          return new SecurityRatingMeasure(Number(measures.value));
-        case QualityMeasuresTypes.SECURITY_REVIEW_RATING:
-          return new SecurityReviewMeasure(Number(measures.value));
-        case QualityMeasuresTypes.DUPLICATED_LINES_DENSITY:
-          return new DuplicatedLinesMeasure(Number(measures.value));
+    const healthPanelMetrics = Object.values(QualityMeasuresTypes);
+    const sonarMeasures = this.sonarResponse.component.measures;
 
-        default:
-          throw new Error('Invalid metric');
+    return healthPanelMetrics.map((metric: QualityMeasuresTypes) => {
+      console.log(metric);
+      const metricFound = sonarMeasures.find(
+        (sonarMeasure) => sonarMeasure.metric === metric,
+      );
+      if (metricFound) {
+        return this.getMeasureByMetric(metric, Number(metricFound.value));
       }
+      return this.getMeasureByMetric(metric, 0);
     });
+  }
+
+  private getMeasureByMetric(
+    metricFound: QualityMeasuresTypes,
+    value: number,
+  ): QualityMeasures {
+    switch (metricFound) {
+      case QualityMeasuresTypes.RELIABILITY_RATING:
+        return new ReliabilityMeasure(value);
+      case QualityMeasuresTypes.COVERAGE:
+        return new CoverageQualityMeasure(value);
+      case QualityMeasuresTypes.MANUTENABILITY_RATING:
+        return new ManutenabilityMeasure(value);
+      case QualityMeasuresTypes.SECURITY_RATING:
+        return new SecurityRatingMeasure(value);
+      case QualityMeasuresTypes.SECURITY_REVIEW_RATING:
+        return new SecurityReviewMeasure(value);
+      case QualityMeasuresTypes.DUPLICATED_LINES_DENSITY:
+        return new DuplicatedLinesMeasure(value);
+    }
   }
 }
