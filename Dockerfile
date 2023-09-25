@@ -13,7 +13,7 @@ RUN npm install pm2 -g
 RUN npm install 
 
 # Copia o código fonte
-COPY .env.prod .env
+## COPY .env.prod .env
 COPY . .
 
 # Compila o TypeScript
