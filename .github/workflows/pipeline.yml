@@ -26,8 +26,7 @@ jobs:
 
       - name: Deploy-ssh
         run: |
-          ssh-keyscan -t rsa -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} '
+           ssh -i ${{ secrets.SSH_PRIVATE_KEY }} -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} '
             cd db1-projects/sonar-metrics-collector/;
             docker container stop sonar-metrics-collector || true;
             docker rm sonar-metrics-collector || true;
