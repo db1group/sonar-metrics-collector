@@ -26,7 +26,7 @@ jobs:
 
       - name: Deploy-ssh
         run: |
-           ssh -i ${{ secrets.SSH_PRIVATE_KEY }} -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} '
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} '
             cd db1-projects/sonar-metrics-collector/;
             docker container stop sonar-metrics-collector || true;
             docker rm sonar-metrics-collector || true;
@@ -34,3 +34,4 @@ jobs:
             docker rmi sonar-metrics-collector || true;
             docker build -t sonar-metrics-collector .;
             docker run -d -t -i -e npm run start:prod -p 5100:5100 --name sonar-metrics-collector sonar-metrics-collector;
+          '
