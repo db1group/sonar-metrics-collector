@@ -24,19 +24,14 @@ jobs:
           npm install
           npm run build
 
-      - name: Build Docker Image
+      - name: Deploy-ssh
         run: |
-          docker build -t sonar-metrics-collector .
-
-      - name: Stop and Remove Existing Container
-        run: |
-          docker container stop sonar-metrics-collector || true
-          docker rm sonar-metrics-collector || true
-
-      - name: Pull Docker Image
-        run: |
-          docker pull sonar-metrics-collector:latest
-
-      - name: Run Docker Container
-        run: |
-          docker run -d -t -i -e npm run start:prod -p 5100:5100 --name sonar-metrics-collector sonar-metrics-collector:latest
+          ssh-keyscan -t rsa -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} '
+            cd db1-projects/sonar-metrics-collector/;
+            docker container stop sonar-metrics-collector || true;
+            docker rm sonar-metrics-collector || true;
+            git pull origin main;
+            docker rmi sonar-metrics-collector || true;
+            docker build -t sonar-metrics-collector .;
+            docker run -d -t -i -e npm run start:prod -p 5100:5100 --name sonar-metrics-collector sonar-metrics-collector;
