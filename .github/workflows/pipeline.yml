@@ -1,0 +1,27 @@
+name: CD-Sonar Metrics Collector
+on:
+  workflow_dispatch:
+  push:
+     branches:
+      - main
+
+jobs:
+  build:
+    name: Deploy-ssh
+    runs-on: ubuntu-latest
+    steps:
+      - name: Executing remote ssh commands
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd db1-projects/sonar-metrics-collector/;
+            docker container stop sonar-metrics-collector;
+            docker rm sonar-metrics-collector;
+            git pull origin main
+            docker rmi sonar-metrics-collector;
+            docker build -t sonar-metrics-collector .;
+            docker run -d -t -i -e npm run start:prod -p 5100:5100 --name sonar-metrics-collector sonar-metrics-collector;
