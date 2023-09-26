@@ -24,18 +24,18 @@ jobs:
           npm install
           npm run build
 
-      - name: Build Docker Image
-        run: |
-         docker build -t sonar-metrics-collector .
-
       - name: Stop and Remove Existing Container
         run: |
          docker container stop sonar-metrics-collector || true
          docker rm sonar-metrics-collector || true
+         
+      - name: Pull Docker Image
+        run: |
+         docker pull sonar-metrics-collector:latest
 
-      ##- name: Pull Docker Image
-       ## run: |
-         ## docker pull sonar-metrics-collector:latest
+      - name: Build Docker Image
+        run: |
+         docker build -t sonar-metrics-collector .
 
       - name: Run Docker Container
         run: |
