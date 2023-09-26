@@ -39,4 +39,4 @@ jobs:
 
       - name: Run Docker Container
         run: |
-         docker run -d -t -i -e npm run start:prod -p 5100:5100 --name sonar-metrics-collector sonar-metrics-collector:latest
+         docker run -d -t -i -e NODE_ENV=production -p 5100:5100 --name sonar-metrics-collector sonar-metrics-collector:latest
