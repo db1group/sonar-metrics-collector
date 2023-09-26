@@ -20,7 +20,7 @@ COPY . .
 RUN npm run build
 
 # Define a porta em que o servidor irá escutar
-EXPOSE 3030
+EXPOSE 5100
 
 # Comando para iniciar o servidor
 CMD ["pm2", "start" , "dist/main.js", "--no-daemon"]
