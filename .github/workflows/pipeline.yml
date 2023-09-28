@@ -19,11 +19,11 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            sudo su;
             cd db1-projects/sonar-metrics-collector/;
             docker container stop sonar-metrics-collector;
             docker rm sonar-metrics-collector;
-            git config --global --add safe.directory /home/ubuntu/db1-projects/sonar-metrics-collector/
-            git pull origin main
+            git pull origin main;
             docker rmi sonar-metrics-collector;
             docker build -t sonar-metrics-collector .;
             docker run -d -t -i -p 5100:5100 --name sonar-metrics-collector sonar-metrics-collector:latest npm run start:prod
