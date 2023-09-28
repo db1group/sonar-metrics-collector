@@ -1,5 +1,5 @@
 # Imagem base
-FROM node:latest
+FROM node:18
 
 # Diretório de trabalho
 WORKDIR /app
