@@ -11,11 +11,6 @@ jobs:
     name: Deploy-ssh
     runs-on: ubuntu-latest
     steps:
-      - name: 'Create env file'
-        run: |
-          touch .env.
-          echo SONAR_USER_TOKEN=${{ secrets.SONAR_USER_TOKEN }} >> .env
-          cat .env
       - name: Executing remote ssh commands
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -24,7 +19,9 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            echo ${{ secrets.SONAR_USER_TOKEN }};
+            touch .env.
+            echo SONAR_USER_TOKEN=${{ secrets.SONAR_USER_TOKEN }} >> .env
+            cat .env
             cd db1-projects/sonar-metrics-collector/;
             docker container stop sonar-metrics-collector;
             docker rm sonar-metrics-collector;
