@@ -23,10 +23,10 @@ jobs:
             docker container stop sonar-metrics-collector;
             docker rm sonar-metrics-collector;
             git pull origin main;
-            touch .env.
+            rm -rf .env
+            touch .env
             echo SONAR_USER_TOKEN=${{ secrets.SONAR_USER_TOKEN }} >> .env
-            echo PORT=5100 >> .env
-            cat .env
+            echo PORT=5100 >> .env            
             docker rmi sonar-metrics-collector;
             docker build -t sonar-metrics-collector .;
             docker run -d -t -i -p 5100:5100 --net metrics-collector --name sonar-metrics-collector sonar-metrics-collector:latest npm run start:prod
