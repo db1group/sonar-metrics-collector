@@ -24,6 +24,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            echo ${{ secrets.SONAR_USER_TOKEN }};
             cd db1-projects/sonar-metrics-collector/;
             docker container stop sonar-metrics-collector;
             docker rm sonar-metrics-collector;
