@@ -19,13 +19,13 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            touch .env.
-            echo SONAR_USER_TOKEN=${{ secrets.SONAR_USER_TOKEN }} >> .env
-            cat .env
             cd db1-projects/sonar-metrics-collector/;
             docker container stop sonar-metrics-collector;
             docker rm sonar-metrics-collector;
             git pull origin main;
+            touch .env.
+            echo SONAR_USER_TOKEN=${{ secrets.SONAR_USER_TOKEN }} >> .env
+            cat .env
             docker rmi sonar-metrics-collector;
             docker build -t sonar-metrics-collector .;
             docker run -d -t -i -p 5100:5100 --net metrics-collector --name sonar-metrics-collector sonar-metrics-collector:latest npm run start:prod
