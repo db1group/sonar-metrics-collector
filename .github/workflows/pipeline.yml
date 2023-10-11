@@ -25,6 +25,7 @@ jobs:
             git pull origin main;
             touch .env.
             echo SONAR_USER_TOKEN=${{ secrets.SONAR_USER_TOKEN }} >> .env
+            echo PORT=5100 >> .env
             cat .env
             docker rmi sonar-metrics-collector;
             docker build -t sonar-metrics-collector .;
