@@ -13,14 +13,14 @@ RUN npm install pm2 -g
 RUN npm install 
 
 # Copia o código fonte
-COPY .env.prod .env
+## COPY .env.prod .env
 COPY . .
 
 # Compila o TypeScript
 RUN npm run build
 
 # Define a porta em que o servidor irá escutar
-EXPOSE 3030
+EXPOSE 5100
 
 # Comando para iniciar o servidor
 CMD ["pm2", "start" , "dist/main.js", "--no-daemon"]
