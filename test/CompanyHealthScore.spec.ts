@@ -1,6 +1,6 @@
-import { CompanyHealthScore } from '@/domain/CompanyHealthScore';
+import { CompanyHealthCalculator } from '@/domain/CompanyHealthScore';
 import { Project } from '@/domain/Project';
-import { InvalidProjectError } from '@/domain/exceptions/InvalidProjectError';
+import { NoProjectError } from '@/domain/exceptions/InvalidProjectError';
 import { CoverageQualityMeasure } from '@/domain/measures/CoverageQualityMeasure';
 import { DuplicatedLinesMeasure } from '@/domain/measures/DuplicatedLinesMeasure';
 import { ManutenabilityMeasure } from '@/domain/measures/ManutenabilityMeasure';
@@ -9,16 +9,16 @@ import { ReliabilityMeasure } from '@/domain/measures/ReliabilityMeasure';
 import { SecurityRatingMeasure } from '@/domain/measures/SecurityRatingMeasure';
 import { SecurityReviewMeasure } from '@/domain/measures/SecurityReviewMeasure';
 
-describe('CompanyHealthScore', () => {
+describe('CompanyHealthCalculator', () => {
   describe('constructor', () => {
     it('should throw an error if no projects are provided', () => {
-      expect(() => new CompanyHealthScore([])).toThrowError(
-        InvalidProjectError,
+      expect(() => new CompanyHealthCalculator([])).toThrowError(
+        NoProjectError,
       );
     });
   });
 
-  describe('getHealthScore', () => {
+  describe('calculateHealthScore', () => {
     it('should return the average health score of all projects with max score', () => {
       const qualityMeasures: QualityMeasures[] = [
         new CoverageQualityMeasure(80),
@@ -29,8 +29,8 @@ describe('CompanyHealthScore', () => {
         new DuplicatedLinesMeasure(1),
       ];
       const projects = [new Project(qualityMeasures)];
-      const companyHealthScore = new CompanyHealthScore(projects);
-      expect(companyHealthScore.getHealthScore()).toEqual(100);
+      const companyHealthCalculator = new CompanyHealthCalculator(projects);
+      expect(companyHealthCalculator.calculateHealthScore()).toEqual(100);
     });
 
     it('should return the average health score of all projects with min score', () => {
@@ -43,8 +43,8 @@ describe('CompanyHealthScore', () => {
         new DuplicatedLinesMeasure(11),
       ];
       const projects = [new Project(qualityMeasures)];
-      const companyHealthScore = new CompanyHealthScore(projects);
-      expect(companyHealthScore.getHealthScore()).toEqual(0);
+      const companyHealthCalculator = new CompanyHealthCalculator(projects);
+      expect(companyHealthCalculator.calculateHealthScore()).toEqual(0);
     });
 
     it('should return the average health score of all projects with one measure good score', () => {
@@ -57,8 +57,8 @@ describe('CompanyHealthScore', () => {
         new DuplicatedLinesMeasure(11),
       ];
       const projects = [new Project(qualityMeasures)];
-      const companyHealthScore = new CompanyHealthScore(projects);
-      expect(companyHealthScore.getHealthScore()).toEqual(16.67);
+      const companyHealthCalculator = new CompanyHealthCalculator(projects);
+      expect(companyHealthCalculator.calculateHealthScore()).toEqual(16.67);
     });
   });
 });

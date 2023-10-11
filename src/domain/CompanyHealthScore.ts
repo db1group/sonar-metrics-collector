@@ -1,21 +1,22 @@
 import { Project } from './Project';
-import { InvalidProjectError } from './exceptions/InvalidProjectError';
+import { NoProjectError } from './exceptions/InvalidProjectError';
 
-export class CompanyHealthScore {
+export class CompanyHealthCalculator {
   private readonly projects: Project[];
 
   constructor(projects: Project[]) {
     this.projects = projects;
     if (this.projects.length === 0) {
-      throw new InvalidProjectError();
+      throw new NoProjectError();
     }
   }
 
-  public getHealthScore(): number {
+  public calculateHealthScore(): number {
     const acummulatedScore = this.projects.reduce((acc, project) => {
-      return acc + project.getHealthScore();
+      return acc + project.calculateHealthScore();
     }, 0);
-    const healthScoreRounded = Math.round((acummulatedScore / this.projects.length) * 100) / 100;
+    const healthScoreRounded =
+      Math.round((acummulatedScore / this.projects.length) * 100) / 100;
 
     return healthScoreRounded;
   }

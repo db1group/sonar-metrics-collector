@@ -17,7 +17,6 @@ export class SonarAdapterMetrics {
     const sonarMeasures = this.sonarResponse.component.measures;
 
     return healthPanelMetrics.map((metric: QualityMeasuresTypes) => {
-      console.log(metric);
       const metricFound = sonarMeasures.find(
         (sonarMeasure) => sonarMeasure.metric === metric,
       );

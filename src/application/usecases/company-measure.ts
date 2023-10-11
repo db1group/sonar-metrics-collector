@@ -1,5 +1,5 @@
+import { CompanyHealthCalculator } from '@/domain/CompanyHealthScore';
 import { Project } from '../../domain/Project';
-import { CompanyHealthScore } from '../../domain/CompanyHealthScore';
 import { QualityProvider } from 'src/domain/quality-provider';
 
 export class CompanyMeasureUsecase {
@@ -11,8 +11,8 @@ export class CompanyMeasureUsecase {
   async execute(): Promise<any> {
     const { projectKeys } = this.input;
     const projects = await this.getProjects(projectKeys);
-    const companyHealthScore = new CompanyHealthScore(projects);
-    return companyHealthScore.getHealthScore();
+    const companyHealthCalculator = new CompanyHealthCalculator(projects);
+    return companyHealthCalculator.calculateHealthScore();
   }
 
   private async getProjects(projectKeys: string[]): Promise<Project[]> {
