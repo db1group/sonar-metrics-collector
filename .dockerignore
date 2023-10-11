@@ -3,9 +3,7 @@ dist/
 coverage/
 
 # Arquivos de configuração local
-.env
-.env.local
-.env.*.local
+
 
 # Arquivos de log
 *.log
