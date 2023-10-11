@@ -15,7 +15,6 @@ RUN npm install
 # Copia o código fonte
 COPY . .
 
-# Compila o TypeScript
 RUN npm run build
 
 # Define a porta em que o servidor irá escutar
