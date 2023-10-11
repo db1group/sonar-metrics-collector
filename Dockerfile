@@ -1,24 +1,24 @@
-# Imagem base
-FROM node:latest
+# # Imagem base
+# FROM node:latest
 
-# Diretório de trabalho
-WORKDIR /app
+# # Diretório de trabalho
+# WORKDIR /app
 
-# Copia os arquivos de dependências
-COPY package.json package-lock.json ./
+# # Copia os arquivos de dependências
+# COPY package.json package-lock.json ./
 
-# Instala as dependências
-RUN npm install pm2 -g
+# # Instala as dependências
+# RUN npm install pm2 -g
 
-RUN npm install 
+# RUN npm install 
 
-# Copia o código fonte
-COPY . .
+# # Copia o código fonte
+# COPY . .
 
-RUN npm run build
+# RUN npm run build
 
-# Define a porta em que o servidor irá escutar
-EXPOSE 5100
+# # Define a porta em que o servidor irá escutar
+# EXPOSE 5100
 
-# Comando para iniciar o servidor
-CMD ["pm2", "start" , "dist/main.js", "--no-daemon"]
+# # Comando para iniciar o servidor
+# CMD ["pm2", "start" , "dist/main.js", "--no-daemon"]
