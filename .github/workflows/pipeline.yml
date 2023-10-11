@@ -13,9 +13,9 @@ jobs:
     steps:
       - name: 'Create env file'
         run: |
-          touch .env.prod         
-          echo SONAR_USER_TOKEN=${{ secrets.SONAR_USER_TOKEN }} >> .env.prod
-          cat .env.prod
+          touch .env.
+          echo SONAR_USER_TOKEN=${{ secrets.SONAR_USER_TOKEN }} >> .env
+          cat .env
       - name: Executing remote ssh commands
         uses: appleboy/ssh-action@v1.0.0
         with:
