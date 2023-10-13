@@ -13,7 +13,6 @@ export class SonarHttpClient implements QualityProvider {
     });
 
     return request.then((data: SonarProjectKeyNameResponse) => {
-      console.log(data);
       return data.components.map((project) => project.key);
     });
   }

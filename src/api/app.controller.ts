@@ -1,12 +1,17 @@
-import { Controller, Get, Query, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Inject, Query, ValidationPipe } from '@nestjs/common';
 import { CodeQualityService } from '../application/code-quality.service';
 import { QualityMeasureDto } from './quality-measure.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { AxiosAdapter } from '../infra/http/axios-adapter';
 import { SonarHttpClient } from '../infra/sonar/sonar-http-client';
+import { LOGGER, ILogger } from '@/infra/logger/logger';
 
 @Controller()
 export class AppController {
+  constructor(
+    @Inject(LOGGER)
+    private readonly logger: ILogger,
+  ) {}
   @Get()
   @ApiTags('Health Sync - Code Quality')
   generateQualityMeasure(
@@ -20,7 +25,10 @@ export class AppController {
     query: QualityMeasureDto,
   ): Promise<number> {
     const sonarUrl = query.sonarUrl || process.env.SONAR_URL;
+    this.logger.log(`Sonar URL: ${sonarUrl}`);
+
     const sonarUserToken = query.sonarUserToken || process.env.SONAR_USER_TOKEN;
+
     const httpAdapter = new AxiosAdapter(sonarUrl, sonarUserToken);
     const sonarHttpClient = new SonarHttpClient(httpAdapter);
     const codeQualityService = new CodeQualityService(sonarHttpClient);
