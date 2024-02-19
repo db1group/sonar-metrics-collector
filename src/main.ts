@@ -1,9 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
-import cluster from 'cluster';
-import os from 'os';
-
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 const port = process.env.PORT || 3000;
@@ -19,23 +16,4 @@ async function bootstrap() {
   await app.listen(port);
 }
 
-export class AppClusterService {
-  static clusterize(callback: Function): void {
-    const numCPUs = os.cpus().length;
-
-    if (cluster.isPrimary) {
-      console.log(`Master server started on ${process.pid}`);
-      for (let i = 0; i < numCPUs; i++) {
-        cluster.fork();
-      }
-      cluster.on('exit', (worker) => {
-        console.log(`Worker ${worker.process.pid} died. Restarting`);
-        cluster.fork();
-      });
-    } else {
-      console.log(`Cluster server started on ${process.pid}`);
-      callback();
-    }
-  }
-}
-AppClusterService.clusterize(bootstrap);
+bootstrap();
