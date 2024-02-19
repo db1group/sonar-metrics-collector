@@ -1,13 +1,13 @@
-import { CompanyHealthCalculator } from '@/domain/CompanyHealthScore';
-import { Project } from '@/domain/Project';
-import { NoProjectError } from '@/domain/exceptions/InvalidProjectError';
-import { CoverageQualityMeasure } from '@/domain/measures/CoverageQualityMeasure';
-import { DuplicatedLinesMeasure } from '@/domain/measures/DuplicatedLinesMeasure';
-import { ManutenabilityMeasure } from '@/domain/measures/ManutenabilityMeasure';
-import { QualityMeasures } from '@/domain/measures/QualityMeasures';
-import { ReliabilityMeasure } from '@/domain/measures/ReliabilityMeasure';
-import { SecurityRatingMeasure } from '@/domain/measures/SecurityRatingMeasure';
-import { SecurityReviewMeasure } from '@/domain/measures/SecurityReviewMeasure';
+import { CompanyHealthCalculator } from '@/domain/health-score/CompanyHealthScore';
+import { Project } from '@/domain/health-score/Project';
+import { NoProjectError } from '@/domain/health-score/exceptions/InvalidProjectError';
+import { CoverageQualityMeasure } from '@/domain/health-score/measures/CoverageQualityMeasure';
+import { DuplicatedLinesMeasure } from '@/domain/health-score/measures/DuplicatedLinesMeasure';
+import { ManutenabilityMeasure } from '@/domain/health-score/measures/ManutenabilityMeasure';
+import { QualityMeasures } from '@/domain/health-score/measures/QualityMeasures';
+import { ReliabilityMeasure } from '@/domain/health-score/measures/ReliabilityMeasure';
+import { SecurityRatingMeasure } from '@/domain/health-score/measures/SecurityRatingMeasure';
+import { SecurityReviewMeasure } from '@/domain/health-score/measures/SecurityReviewMeasure';
 
 describe('CompanyHealthCalculator', () => {
   describe('constructor', () => {

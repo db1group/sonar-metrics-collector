@@ -1,14 +1,14 @@
 import {
   QualityMeasures,
   QualityMeasuresTypes,
-} from '../../domain/measures/QualityMeasures';
+} from '../../domain/health-score/measures/QualityMeasures';
 import { SonarMetricResponse } from './sonar-http-client';
-import { ReliabilityMeasure } from '../../domain/measures/ReliabilityMeasure';
-import { CoverageQualityMeasure } from '../../domain/measures/CoverageQualityMeasure';
-import { ManutenabilityMeasure } from '../../domain/measures/ManutenabilityMeasure';
-import { SecurityRatingMeasure } from '../../domain/measures/SecurityRatingMeasure';
-import { DuplicatedLinesMeasure } from '../../domain/measures/DuplicatedLinesMeasure';
-import { SecurityReviewMeasure } from '../../domain/measures/SecurityReviewMeasure';
+import { ReliabilityMeasure } from '../../domain/health-score/measures/ReliabilityMeasure';
+import { CoverageQualityMeasure } from '../../domain/health-score/measures/CoverageQualityMeasure';
+import { ManutenabilityMeasure } from '../../domain/health-score/measures/ManutenabilityMeasure';
+import { SecurityRatingMeasure } from '../../domain/health-score/measures/SecurityRatingMeasure';
+import { DuplicatedLinesMeasure } from '../../domain/health-score/measures/DuplicatedLinesMeasure';
+import { SecurityReviewMeasure } from '../../domain/health-score/measures/SecurityReviewMeasure';
 
 export class SonarAdapterMetrics {
   constructor(private readonly sonarResponse: SonarMetricResponse) {}

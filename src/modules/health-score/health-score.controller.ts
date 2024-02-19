@@ -1,13 +1,13 @@
 import { Controller, Get, Inject, Query, ValidationPipe } from '@nestjs/common';
-import { CodeQualityService } from '../application/code-quality.service';
+import { CodeQualityService } from '../../application/code-quality.service';
 import { QualityMeasureDto } from './quality-measure.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { AxiosAdapter } from '../infra/http/axios-adapter';
-import { SonarHttpClient } from '../infra/sonar/sonar-http-client';
+import { AxiosAdapter } from '../../infra/http/axios-adapter';
+import { SonarHttpClient } from '../../infra/sonar/sonar-http-client';
 import { LOGGER, ILogger } from '@/infra/logger/logger';
 
 @Controller()
-export class AppController {
+export class HealthScoreController {
   constructor(
     @Inject(LOGGER)
     private readonly logger: ILogger,

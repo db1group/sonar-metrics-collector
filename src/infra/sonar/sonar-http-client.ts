@@ -1,7 +1,7 @@
 import { HttpClient } from '../http/http-client';
-import { QualityMeasures } from '../../domain/measures/QualityMeasures';
+import { QualityMeasures } from '../../domain/health-score/measures/QualityMeasures';
 import { SonarAdapterMetrics } from './sonar-metrics-adapter';
-import { QualityProvider } from '@/domain/quality-provider';
+import { QualityProvider } from '@/application/quality-provider';
 
 export class SonarHttpClient implements QualityProvider {
   constructor(private readonly httpClient: HttpClient) {}

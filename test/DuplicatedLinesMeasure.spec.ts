@@ -1,5 +1,5 @@
-import { DuplicatedLinesMeasure } from '@/domain/measures/DuplicatedLinesMeasure';
-import { QualityMeasuresValues } from '@/domain/measures/QualityMeasures';
+import { DuplicatedLinesMeasure } from '@/domain/health-score/measures/DuplicatedLinesMeasure';
+import { QualityMeasuresValues } from '@/domain/health-score/measures/QualityMeasures';
 
 describe('DuplicatedLinesMeasure', () => {
   describe('getQualityRatio', () => {

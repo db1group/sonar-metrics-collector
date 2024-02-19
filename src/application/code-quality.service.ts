@@ -3,7 +3,7 @@ import {
   CompanyMeasureUsecase,
 } from './usecases/company-measure';
 
-import { QualityProvider } from '../domain/quality-provider';
+import { QualityProvider } from './quality-provider';
 
 export class CodeQualityService {
   constructor(private readonly qualityProvider: QualityProvider) {}

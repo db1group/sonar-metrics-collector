@@ -1,5 +1,5 @@
 import { CodeQualityService } from '@/application/code-quality.service';
-import { CoverageQualityMeasure } from '@/domain/measures/CoverageQualityMeasure';
+import { CoverageQualityMeasure } from '@/domain/health-score/measures/CoverageQualityMeasure';
 import { QualityProvider } from '@/domain/quality-provider';
 
 describe('CodeQualityService', () => {

@@ -1,6 +1,6 @@
-import { CompanyHealthCalculator } from '@/domain/CompanyHealthScore';
-import { Project } from '../../domain/Project';
-import { QualityProvider } from 'src/domain/quality-provider';
+import { CompanyHealthCalculator } from '@/domain/health-score/CompanyHealthScore';
+import { Project } from '../../domain/health-score/Project';
+import { QualityProvider } from '../quality-provider';
 
 export class CompanyMeasureUsecase {
   constructor(
