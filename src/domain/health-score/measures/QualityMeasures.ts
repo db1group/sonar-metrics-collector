@@ -3,6 +3,8 @@ export interface QualityMeasures {
   getQualityRatio(): number;
 }
 
+export const TECHICAL_DEBT = 'sqale_index';
+
 export enum QualityMeasuresTypes {
   RELIABILITY_RATING = 'reliability_rating',
   MANUTENABILITY_RATING = 'sqale_rating',

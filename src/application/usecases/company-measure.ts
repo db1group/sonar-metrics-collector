@@ -1,18 +1,29 @@
-import { CompanyHealthCalculator } from '@/domain/health-score/CompanyHealthScore';
-import { Project } from '../../domain/health-score/Project';
+import { Company } from '@/domain/Company';
 import { QualityProvider } from '../quality-provider';
+import { TechnicalDebtProvider } from '../technical-debt-provider';
+import { Project } from '@/domain/Project';
 
 export class CompanyMeasureUsecase {
   constructor(
     private readonly input: CompanyMeasureInput,
     private readonly qualityProviderService: QualityProvider,
+    private readonly tecnicalDebtService: TechnicalDebtProvider,
   ) {}
 
-  async execute(): Promise<any> {
+  async execute(): Promise<{
+    healthScore: number;
+    technicalDebt: number;
+  }> {
     const { projectKeys } = this.input;
     const projects = await this.getProjects(projectKeys);
-    const companyHealthCalculator = new CompanyHealthCalculator(projects);
-    return companyHealthCalculator.calculateHealthScore();
+    const company = new Company(projects);
+    const healthScore = company.calculateHealthScore();
+    const technicalDebt = company.calculateTechnicalDebt();
+
+    return {
+      healthScore,
+      technicalDebt,
+    };
   }
 
   private async getProjects(projectKeys: string[]): Promise<Project[]> {
@@ -23,7 +34,11 @@ export class CompanyMeasureUsecase {
             projectKey,
           );
         if (qualityMeasures) {
-          return new Project(qualityMeasures);
+          const technicalDebt =
+            await this.tecnicalDebtService.getTechnicalDebtFromProject(
+              projectKey,
+            );
+          return new Project(qualityMeasures, technicalDebt);
         }
       }),
     );

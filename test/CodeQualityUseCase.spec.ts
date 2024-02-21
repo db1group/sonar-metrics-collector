@@ -1,6 +1,8 @@
 import { CodeQualityService } from '@/application/code-quality.service';
+import { QualityProvider } from '@/application/quality-provider';
+import { TechnicalDebtProvider } from '@/application/technical-debt-provider';
 import { CoverageQualityMeasure } from '@/domain/health-score/measures/CoverageQualityMeasure';
-import { QualityProvider } from '@/domain/quality-provider';
+import { TechnicalDebt } from '@/domain/technical-debt/TechnicalDebt';
 
 describe('CodeQualityService', () => {
   test('Should generate value with project name', async () => {
@@ -13,7 +15,19 @@ describe('CodeQualityService', () => {
         return Promise.resolve(['test']);
       },
     };
-    const codeQualityService = new CodeQualityService(qualityProvider);
+
+    const tehcDebtProvider: TechnicalDebtProvider = {
+      getTechnicalDebtFromProject: function (
+        project: string,
+      ): Promise<TechnicalDebt> {
+        return Promise.resolve(new TechnicalDebt(60));
+      },
+    };
+
+    const codeQualityService = new CodeQualityService(
+      qualityProvider,
+      tehcDebtProvider,
+    );
 
     const qualityMeasures = await codeQualityService.generateQualityMeasure(
       'test',
@@ -21,6 +35,7 @@ describe('CodeQualityService', () => {
 
     expect(qualityMeasures).toEqual({
       value: 16.67,
+      technicalDebt: 1,
       projects: ['test'],
     });
   });
@@ -35,7 +50,19 @@ describe('CodeQualityService', () => {
         return Promise.resolve(['test']);
       },
     };
-    const codeQualityService = new CodeQualityService(qualityProvider);
+
+    const tehcDebtProvider: TechnicalDebtProvider = {
+      getTechnicalDebtFromProject: function (
+        project: string,
+      ): Promise<TechnicalDebt> {
+        return Promise.resolve(new TechnicalDebt(60));
+      },
+    };
+
+    const codeQualityService = new CodeQualityService(
+      qualityProvider,
+      tehcDebtProvider,
+    );
 
     const qualityMeasures = await codeQualityService.generateQualityMeasure(
       '',
@@ -44,6 +71,7 @@ describe('CodeQualityService', () => {
 
     expect(qualityMeasures).toEqual({
       value: 16.67,
+      technicalDebt: 1,
       projects: ['test'],
     });
   });
@@ -58,7 +86,18 @@ describe('CodeQualityService', () => {
         return Promise.resolve(['test']);
       },
     };
-    const codeQualityService = new CodeQualityService(qualityProvider);
+
+    const tehcDebtProvider: TechnicalDebtProvider = {
+      getTechnicalDebtFromProject: function (
+        project: string,
+      ): Promise<TechnicalDebt> {
+        return Promise.resolve(new TechnicalDebt(120));
+      },
+    };
+    const codeQualityService = new CodeQualityService(
+      qualityProvider,
+      tehcDebtProvider,
+    );
 
     const qualityMeasures = await codeQualityService.generateQualityMeasure(
       '',
@@ -67,6 +106,7 @@ describe('CodeQualityService', () => {
 
     expect(qualityMeasures).toEqual({
       value: 0,
+      technicalDebt: 2,
       projects: ['test'],
     });
   });
@@ -81,7 +121,19 @@ describe('CodeQualityService', () => {
         return Promise.resolve(['test']);
       },
     };
-    const codeQualityService = new CodeQualityService(qualityProvider);
+
+    const tehcDebtProvider: TechnicalDebtProvider = {
+      getTechnicalDebtFromProject: function (
+        project: string,
+      ): Promise<TechnicalDebt> {
+        return Promise.resolve(new TechnicalDebt(60));
+      },
+    };
+
+    const codeQualityService = new CodeQualityService(
+      qualityProvider,
+      tehcDebtProvider,
+    );
 
     await expect(() => {
       return codeQualityService.generateQualityMeasure('', '');

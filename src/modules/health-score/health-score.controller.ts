@@ -23,7 +23,11 @@ export class HealthScoreController {
       }),
     )
     query: QualityMeasureDto,
-  ): Promise<number> {
+  ): Promise<{
+    value: number;
+    technicalDebt: number;
+    projects: string[];
+  }> {
     const sonarUrl = query.sonarUrl || process.env.SONAR_URL;
     this.logger.log(`Sonar URL: ${sonarUrl}`);
 
@@ -31,7 +35,10 @@ export class HealthScoreController {
 
     const httpAdapter = new AxiosAdapter(sonarUrl, sonarUserToken);
     const sonarHttpClient = new SonarHttpClient(httpAdapter);
-    const codeQualityService = new CodeQualityService(sonarHttpClient);
+    const codeQualityService = new CodeQualityService(
+      sonarHttpClient,
+      sonarHttpClient,
+    );
 
     return codeQualityService.generateQualityMeasure(
       query.projectKeys,

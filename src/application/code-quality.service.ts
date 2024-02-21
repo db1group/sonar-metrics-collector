@@ -4,10 +4,21 @@ import {
 } from './usecases/company-measure';
 
 import { QualityProvider } from './quality-provider';
+import { TechnicalDebtProvider } from './technical-debt-provider';
 
 export class CodeQualityService {
-  constructor(private readonly qualityProvider: QualityProvider) {}
-  async generateQualityMeasure(keys?: string, keyName?: string): Promise<any> {
+  constructor(
+    private readonly qualityProvider: QualityProvider,
+    private readonly technicalDebtProvider: TechnicalDebtProvider,
+  ) {}
+  async generateQualityMeasure(
+    keys?: string,
+    keyName?: string,
+  ): Promise<{
+    value: number;
+    technicalDebt: number;
+    projects: string[];
+  }> {
     const projectKeys = await this.getProjectKeysByKeyName(keys, keyName);
 
     const companyMeasureInput: CompanyMeasureInput = {
@@ -17,9 +28,12 @@ export class CodeQualityService {
     const companyData = new CompanyMeasureUsecase(
       companyMeasureInput,
       this.qualityProvider,
+      this.technicalDebtProvider,
     );
+    const { healthScore, technicalDebt } = await companyData.execute();
     return {
-      value: await companyData.execute(),
+      value: healthScore,
+      technicalDebt,
       projects: projectKeys,
     };
   }

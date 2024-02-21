@@ -10,7 +10,7 @@ import { SecurityRatingMeasure } from '../../domain/health-score/measures/Securi
 import { DuplicatedLinesMeasure } from '../../domain/health-score/measures/DuplicatedLinesMeasure';
 import { SecurityReviewMeasure } from '../../domain/health-score/measures/SecurityReviewMeasure';
 
-export class SonarAdapterMetrics {
+export class SonarMetricsAdapter {
   constructor(private readonly sonarResponse: SonarMetricResponse) {}
   execute(): QualityMeasures[] {
     const healthPanelMetrics = Object.values(QualityMeasuresTypes);
