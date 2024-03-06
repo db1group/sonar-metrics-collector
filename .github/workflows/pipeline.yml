@@ -30,4 +30,4 @@ jobs:
             echo PORT=5100 >> .env            
             docker rmi sonar-metrics-collector;
             docker build -t sonar-metrics-collector .;
-            docker run -d -t -i -p 5100:5100 --name sonar-metrics-collector sonar-metrics-collector:latest npm run start:prod
+            docker run -d -t -i -p 5100:5100 --network host --name sonar-metrics-collector sonar-metrics-collector:latest npm run start:prod
