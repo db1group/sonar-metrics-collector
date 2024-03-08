@@ -25,7 +25,7 @@ export class AppController {
     query: QualityMeasureDto,
   ): Promise<number> {
     const sonarUrl = query.sonarUrl || process.env.SONAR_URL;
-    this.logger.log(`Sonar URL: ${sonarUrl}`);
+    this.logger.log(`PARAMS: ${JSON.stringify(query)}`);
 
     const sonarUserToken = query.sonarUserToken || process.env.SONAR_USER_TOKEN;
 
