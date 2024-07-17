@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.42.0
+    command: ['--config=/conf/collector-config.yaml']
+    volumes:
+      - ./observability/otel/collector-config.yaml:/conf/collector-config.yaml
+    ports:
+      - '4317:4317'
+      - '4318:4318'
+    depends_on:
+      - zipkin
+
+  # Zipkin
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - '9411:9411'
