@@ -3,9 +3,10 @@ import { TechnicalDebt } from './technical-debt/TechnicalDebt';
 
 export class Project {
   constructor(
+    private readonly name: string,
     private readonly qualityMeasures: QualityMeasures[],
     private readonly technicalDebt: TechnicalDebt,
-  ) {}
+  ) { }
 
   calculateHealthScore(): number {
     return this.qualityMeasures.reduce((acc, qualityMeasure) => {
@@ -15,5 +16,9 @@ export class Project {
 
   calculateTechnicalDebt(): number {
     return this.technicalDebt.calculateTechnicalDebt();
+  }
+
+  public getName(): string {
+    return this.name;
   }
 }

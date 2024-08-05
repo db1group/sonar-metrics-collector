@@ -5,20 +5,17 @@ import {
 
 import { QualityProvider } from './quality-provider';
 import { TechnicalDebtProvider } from './technical-debt-provider';
+import { QualityMeasureResultDto } from '@/modules/health-score/quality-measure-result.dto';
 
 export class CodeQualityService {
   constructor(
     private readonly qualityProvider: QualityProvider,
     private readonly technicalDebtProvider: TechnicalDebtProvider,
-  ) {}
+  ) { }
   async generateQualityMeasure(
     keys?: string,
     keyName?: string,
-  ): Promise<{
-    value: number;
-    technicalDebt: number;
-    projects: string[];
-  }> {
+  ): Promise<QualityMeasureResultDto> {
     const projectKeys = await this.getProjectKeysByKeyName(keys, keyName);
 
     const companyMeasureInput: CompanyMeasureInput = {
@@ -30,11 +27,19 @@ export class CodeQualityService {
       this.qualityProvider,
       this.technicalDebtProvider,
     );
-    const { healthScore, technicalDebt } = await companyData.execute();
+
+    const healthScore = await companyData.execute();
+
     return {
-      value: healthScore,
-      technicalDebt,
-      projects: projectKeys,
+      value: healthScore.value,
+      technicalDebt: healthScore.technicalDebt,
+      items: healthScore.items.map((item) => {
+        return {
+          project: item.project,
+          technicalDebt: item.technicalDebt,
+          value: item.value,
+        };
+      })
     };
   }
 

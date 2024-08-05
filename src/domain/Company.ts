@@ -1,3 +1,4 @@
+import { HealthScore, HealthScoreItem } from './HealthScore';
 import { Project } from './Project';
 import { NoProjectError } from './health-score/exceptions/InvalidProjectError';
 
@@ -11,20 +12,36 @@ export class Company {
     }
   }
 
-  public calculateHealthScore(): number {
-    const acummulatedScore = this.projects.reduce((acc, project) => {
-      return acc + project.calculateHealthScore();
+  public calculateHealthScore(): HealthScore {
+    const items = this.calculateItems();
+
+    const acummulatedScore = items.reduce((acc, item) => {
+      return acc + item.value
     }, 0);
+
     const healthScoreRounded =
       Math.round((acummulatedScore / this.projects.length) * 100) / 100;
 
-    return healthScoreRounded;
+    const acummulatedDebt = items.reduce((acc, item) => {
+      return acc + item.technicalDebt;
+    }, 0);
+
+    return {
+      value: healthScoreRounded,
+      technicalDebt: acummulatedDebt,
+      items,
+    }
   }
 
-  public calculateTechnicalDebt(): number {
-    const acummulatedDebt = this.projects.reduce((acc, project) => {
-      return acc + project.calculateTechnicalDebt();
-    }, 0);
-    return acummulatedDebt;
+  private calculateItems(): HealthScoreItem[] {
+    return this.projects.map((project) => {
+      const technicalDebt = project.calculateTechnicalDebt();
+      const value = project.calculateHealthScore();
+      return {
+        project: project.getName(),
+        technicalDebt,
+        value,
+      };
+    });
   }
 }

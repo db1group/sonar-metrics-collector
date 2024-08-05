@@ -5,13 +5,14 @@ import { ApiTags } from '@nestjs/swagger';
 import { AxiosAdapter } from '../../infra/http/axios-adapter';
 import { SonarHttpClient } from '../../infra/sonar/sonar-http-client';
 import { LOGGER, ILogger } from '@/infra/logger/logger';
+import { QualityMeasureResultDto } from './quality-measure-result.dto';
 
 @Controller()
 export class HealthScoreController {
   constructor(
     @Inject(LOGGER)
     private readonly logger: ILogger,
-  ) {}
+  ) { }
   @Get()
   @ApiTags('Health Sync - Code Quality')
   generateQualityMeasure(
@@ -23,11 +24,7 @@ export class HealthScoreController {
       }),
     )
     query: QualityMeasureDto,
-  ): Promise<{
-    value: number;
-    technicalDebt: number;
-    projects: string[];
-  }> {
+  ): Promise<QualityMeasureResultDto> {
     const sonarUrl = query.sonarUrl || process.env.SONAR_URL;
     this.logger.log(`Sonar URL: ${sonarUrl}`);
 
