@@ -1,5 +1,5 @@
-import { ManutenabilityMeasure } from '@/domain/measures/ManutenabilityMeasure';
-import { QualityMeasuresValues } from '@/domain/measures/QualityMeasures';
+import { ManutenabilityMeasure } from '@/domain/health-score/measures/ManutenabilityMeasure';
+import { QualityMeasuresValues } from '@/domain/health-score/measures/QualityMeasures';
 
 describe('ManutenabilityMeasure', () => {
   it('should return A quality ratio for value 1', () => {

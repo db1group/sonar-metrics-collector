@@ -1,20 +1,19 @@
-import { CompanyHealthCalculator } from '@/domain/CompanyHealthScore';
+import { Company } from '@/domain/Company';
 import { Project } from '@/domain/Project';
-import { NoProjectError } from '@/domain/exceptions/InvalidProjectError';
-import { CoverageQualityMeasure } from '@/domain/measures/CoverageQualityMeasure';
-import { DuplicatedLinesMeasure } from '@/domain/measures/DuplicatedLinesMeasure';
-import { ManutenabilityMeasure } from '@/domain/measures/ManutenabilityMeasure';
-import { QualityMeasures } from '@/domain/measures/QualityMeasures';
-import { ReliabilityMeasure } from '@/domain/measures/ReliabilityMeasure';
-import { SecurityRatingMeasure } from '@/domain/measures/SecurityRatingMeasure';
-import { SecurityReviewMeasure } from '@/domain/measures/SecurityReviewMeasure';
+import { NoProjectError } from '@/domain/health-score/exceptions/InvalidProjectError';
+import { CoverageQualityMeasure } from '@/domain/health-score/measures/CoverageQualityMeasure';
+import { DuplicatedLinesMeasure } from '@/domain/health-score/measures/DuplicatedLinesMeasure';
+import { ManutenabilityMeasure } from '@/domain/health-score/measures/ManutenabilityMeasure';
+import { QualityMeasures } from '@/domain/health-score/measures/QualityMeasures';
+import { ReliabilityMeasure } from '@/domain/health-score/measures/ReliabilityMeasure';
+import { SecurityRatingMeasure } from '@/domain/health-score/measures/SecurityRatingMeasure';
+import { SecurityReviewMeasure } from '@/domain/health-score/measures/SecurityReviewMeasure';
+import { TechnicalDebt } from '@/domain/technical-debt/TechnicalDebt';
 
 describe('CompanyHealthCalculator', () => {
   describe('constructor', () => {
     it('should throw an error if no projects are provided', () => {
-      expect(() => new CompanyHealthCalculator([])).toThrowError(
-        NoProjectError,
-      );
+      expect(() => new Company([])).toThrowError(NoProjectError);
     });
   });
 
@@ -28,8 +27,9 @@ describe('CompanyHealthCalculator', () => {
         new SecurityReviewMeasure(1),
         new DuplicatedLinesMeasure(1),
       ];
-      const projects = [new Project(qualityMeasures)];
-      const companyHealthCalculator = new CompanyHealthCalculator(projects);
+      const technicalDebt = new TechnicalDebt(60);
+      const projects = [new Project(qualityMeasures, technicalDebt)];
+      const companyHealthCalculator = new Company(projects);
       expect(companyHealthCalculator.calculateHealthScore()).toEqual(100);
     });
 
@@ -42,8 +42,9 @@ describe('CompanyHealthCalculator', () => {
         new SecurityReviewMeasure(5),
         new DuplicatedLinesMeasure(11),
       ];
-      const projects = [new Project(qualityMeasures)];
-      const companyHealthCalculator = new CompanyHealthCalculator(projects);
+      const technicalDebt = new TechnicalDebt(60);
+      const projects = [new Project(qualityMeasures, technicalDebt)];
+      const companyHealthCalculator = new Company(projects);
       expect(companyHealthCalculator.calculateHealthScore()).toEqual(0);
     });
 
@@ -56,8 +57,9 @@ describe('CompanyHealthCalculator', () => {
         new SecurityReviewMeasure(5),
         new DuplicatedLinesMeasure(11),
       ];
-      const projects = [new Project(qualityMeasures)];
-      const companyHealthCalculator = new CompanyHealthCalculator(projects);
+      const technicalDebt = new TechnicalDebt(60);
+      const projects = [new Project(qualityMeasures, technicalDebt)];
+      const companyHealthCalculator = new Company(projects);
       expect(companyHealthCalculator.calculateHealthScore()).toEqual(16.67);
     });
   });

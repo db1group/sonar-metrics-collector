@@ -1,5 +1,5 @@
-import { CoverageQualityMeasure } from '../src/domain/measures/CoverageQualityMeasure';
-import { QualityMeasuresValues } from '../src/domain/measures/QualityMeasures';
+import { CoverageQualityMeasure } from '../src/domain/health-score/measures/CoverageQualityMeasure';
+import { QualityMeasuresValues } from '../src/domain/health-score/measures/QualityMeasures';
 
 describe('CoverageQualityMeasure', () => {
   it('should return A quality ratio for coverage value >= 80', () => {

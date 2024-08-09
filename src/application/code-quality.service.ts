@@ -3,11 +3,19 @@ import {
   CompanyMeasureUsecase,
 } from './usecases/company-measure';
 
-import { QualityProvider } from '../domain/quality-provider';
+import { QualityProvider } from './quality-provider';
+import { TechnicalDebtProvider } from './technical-debt-provider';
+import { QualityMeasureResultDto } from '@/modules/health-score/quality-measure-result.dto';
 
 export class CodeQualityService {
-  constructor(private readonly qualityProvider: QualityProvider) {}
-  async generateQualityMeasure(keys?: string, keyName?: string): Promise<any> {
+  constructor(
+    private readonly qualityProvider: QualityProvider,
+    private readonly technicalDebtProvider: TechnicalDebtProvider,
+  ) { }
+  async generateQualityMeasure(
+    keys?: string,
+    keyName?: string,
+  ): Promise<QualityMeasureResultDto> {
     const projectKeys = await this.getProjectKeysByKeyName(keys, keyName);
 
     const companyMeasureInput: CompanyMeasureInput = {
@@ -17,10 +25,21 @@ export class CodeQualityService {
     const companyData = new CompanyMeasureUsecase(
       companyMeasureInput,
       this.qualityProvider,
+      this.technicalDebtProvider,
     );
+
+    const healthScore = await companyData.execute();
+
     return {
-      value: await companyData.execute(),
-      projects: projectKeys,
+      value: healthScore.value,
+      technicalDebt: healthScore.technicalDebt,
+      items: healthScore.items.map((item) => {
+        return {
+          project: item.project,
+          technicalDebt: item.technicalDebt,
+          value: item.value,
+        };
+      })
     };
   }
 
