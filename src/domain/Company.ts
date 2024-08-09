@@ -38,7 +38,7 @@ export class Company {
       const technicalDebt = project.calculateTechnicalDebt();
       const value = project.calculateHealthScore();
       return {
-        project: project.getName(),
+        project: project.name,
         technicalDebt,
         value,
       };
