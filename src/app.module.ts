@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './api/app.controller';
+
 import { ConfigModule } from '@nestjs/config';
 import { LOGGER } from './infra/logger/logger';
 import { ConsoleLogger } from './infra/logger/api-logger';
+import { HealthScoreModule } from './modules/health-score/health-score.module';
 
 @Module({
-  imports: [ConfigModule.forRoot()],
-  controllers: [AppController],
+  imports: [ConfigModule.forRoot(), HealthScoreModule],
+  controllers: [],
   providers: [
     {
       provide: LOGGER,

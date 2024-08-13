@@ -1,10 +1,31 @@
 import { HttpClient } from '../http/http-client';
-import { QualityMeasures } from '../../domain/measures/QualityMeasures';
-import { SonarAdapterMetrics } from './sonar-metrics-adapter';
-import { QualityProvider } from '@/domain/quality-provider';
+import {
+  QualityMeasures,
+  TECHICAL_DEBT,
+} from '../../domain/health-score/measures/QualityMeasures';
 
-export class SonarHttpClient implements QualityProvider {
+import { QualityProvider } from '@/application/quality-provider';
+import { SonarMetricsAdapter } from './sonar-metrics-adapter';
+import { TechnicalDebtProvider } from '@/application/technical-debt-provider';
+import { TechnicalDebt } from '@/domain/technical-debt/TechnicalDebt';
+import { SonarTechicalDebtAdapter } from './sonar-techical-debt-adapter';
+
+export class SonarHttpClient implements QualityProvider, TechnicalDebtProvider {
   constructor(private readonly httpClient: HttpClient) {}
+  getTechnicalDebtFromProject(project: string): Promise<TechnicalDebt> {
+    const request = this.httpClient.get('/api/measures/component', {
+      params: {
+        component: project,
+        metricKeys: TECHICAL_DEBT,
+      },
+    });
+
+    return request.then((data: SonarMetricResponse) => {
+      if (data.component.measures.length) {
+        return new SonarTechicalDebtAdapter(data).execute();
+      }
+    });
+  }
   getProjectsFromProjectKeyName(projectKeyName: string): Promise<string[]> {
     const request = this.httpClient.get('/api/projects/search', {
       params: {
@@ -29,7 +50,7 @@ export class SonarHttpClient implements QualityProvider {
 
     return request.then((data: SonarMetricResponse) => {
       if (data.component.measures.length) {
-        return new SonarAdapterMetrics(data).execute();
+        return new SonarMetricsAdapter(data).execute();
       }
     });
   }

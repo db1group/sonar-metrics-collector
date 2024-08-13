@@ -65,9 +65,10 @@
     "collectCoverageFrom": [
       "src/**/*.ts",
       "!src/infra/**",
-      "!src/api/**",
       "!src/main.ts",
-      "!src/app.module.ts"
+      "!src/**/*.module.ts",
+      "!src/**/*.controller.ts",
+      "!src/**/*.dto.ts"
     ],
     "coverageReporters": [
       "json",

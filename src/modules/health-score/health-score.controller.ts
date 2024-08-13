@@ -1,17 +1,18 @@
 import { Controller, Get, Inject, Query, ValidationPipe } from '@nestjs/common';
-import { CodeQualityService } from '../application/code-quality.service';
+import { CodeQualityService } from '../../application/code-quality.service';
 import { QualityMeasureDto } from './quality-measure.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { AxiosAdapter } from '../infra/http/axios-adapter';
-import { SonarHttpClient } from '../infra/sonar/sonar-http-client';
+import { AxiosAdapter } from '../../infra/http/axios-adapter';
+import { SonarHttpClient } from '../../infra/sonar/sonar-http-client';
 import { LOGGER, ILogger } from '@/infra/logger/logger';
+import { QualityMeasureResultDto } from './quality-measure-result.dto';
 
 @Controller()
-export class AppController {
+export class HealthScoreController {
   constructor(
     @Inject(LOGGER)
     private readonly logger: ILogger,
-  ) {}
+  ) { }
   @Get()
   @ApiTags('Health Sync - Code Quality')
   generateQualityMeasure(
@@ -23,7 +24,7 @@ export class AppController {
       }),
     )
     query: QualityMeasureDto,
-  ): Promise<number> {
+  ): Promise<QualityMeasureResultDto> {
     const sonarUrl = query.sonarUrl || process.env.SONAR_URL;
     this.logger.log(`PARAMS: ${JSON.stringify(query)}`);
 
@@ -31,7 +32,10 @@ export class AppController {
 
     const httpAdapter = new AxiosAdapter(sonarUrl, sonarUserToken);
     const sonarHttpClient = new SonarHttpClient(httpAdapter);
-    const codeQualityService = new CodeQualityService(sonarHttpClient);
+    const codeQualityService = new CodeQualityService(
+      sonarHttpClient,
+      sonarHttpClient,
+    );
 
     return codeQualityService.generateQualityMeasure(
       query.projectKeys,
