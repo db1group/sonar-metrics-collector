@@ -13,7 +13,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-  await app.listen(port);
+  await app.listen(port).then(() => {
+    console.log(`Server running on http://localhost:${port}`);
+  });
 }
 
 bootstrap();

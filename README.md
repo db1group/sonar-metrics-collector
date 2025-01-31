@@ -65,3 +65,15 @@ Basta acessar URL/api
 ```bash
 $ /api
 ```
+
+## Send image to AWS Registry
+
+```bash
+aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/u6l4x4n9
+
+docker build -t sonar-metrics-collector .
+
+docker tag sonar-metrics-collector:latest public.ecr.aws/u6l4x4n9/sonar-metrics-collector:latest
+
+docker push public.ecr.aws/u6l4x4n9/sonar-metrics-collector:latest
+```

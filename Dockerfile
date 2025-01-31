@@ -8,7 +8,6 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # Instala as dependências
-RUN npm install pm2 -g
 
 RUN npm install 
 
@@ -22,4 +21,4 @@ RUN npm run build
 EXPOSE 5100
 
 # Comando para iniciar o servidor
-CMD ["pm2", "start" , "dist/main.js", "--no-daemon"]
+CMD ["npm", "run", "start:prod"]
