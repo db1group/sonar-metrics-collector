@@ -1,5 +1,5 @@
 # Imagem base
-FROM node:latest
+FROM node:lts-slim AS build
 
 # Diretório de trabalho
 WORKDIR /app
@@ -7,16 +7,24 @@ WORKDIR /app
 # Copia os arquivos de dependências
 COPY package.json package-lock.json ./
 
-# Instala as dependências
-RUN npm install pm2 -g
-
-RUN npm install 
+RUN npm ci
 
 # Copia o código fonte
 COPY . .
 
 # Compila o TypeScript
 RUN npm run build
+
+FROM node:lts-alpine
+
+WORKDIR /app
+
+# Instala as dependências
+RUN npm install pm2 -g
+
+COPY --from=build /app/node_modules node_modules
+COPY --from=build /app/.env .env
+COPY --from=build /app/dist dist
 
 # Define a porta em que o servidor irá escutar
 EXPOSE 5100
