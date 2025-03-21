@@ -28,9 +28,11 @@ describe('CompanyHealthCalculator', () => {
         new DuplicatedLinesMeasure(1),
       ];
       const technicalDebt = new TechnicalDebt(60);
-      const projects = [new Project(qualityMeasures, technicalDebt)];
+      const projects = [new Project('', qualityMeasures, technicalDebt)];
       const companyHealthCalculator = new Company(projects);
-      expect(companyHealthCalculator.calculateHealthScore()).toEqual(100);
+      expect(companyHealthCalculator.calculateHealthScore().value).toBeCloseTo(
+        100,
+      );
     });
 
     it('should return the average health score of all projects with min score', () => {
@@ -43,9 +45,11 @@ describe('CompanyHealthCalculator', () => {
         new DuplicatedLinesMeasure(11),
       ];
       const technicalDebt = new TechnicalDebt(60);
-      const projects = [new Project(qualityMeasures, technicalDebt)];
+      const projects = [new Project('', qualityMeasures, technicalDebt)];
       const companyHealthCalculator = new Company(projects);
-      expect(companyHealthCalculator.calculateHealthScore()).toEqual(0);
+      expect(companyHealthCalculator.calculateHealthScore().value).toBeCloseTo(
+        0,
+      );
     });
 
     it('should return the average health score of all projects with one measure good score', () => {
@@ -58,9 +62,11 @@ describe('CompanyHealthCalculator', () => {
         new DuplicatedLinesMeasure(11),
       ];
       const technicalDebt = new TechnicalDebt(60);
-      const projects = [new Project(qualityMeasures, technicalDebt)];
+      const projects = [new Project('', qualityMeasures, technicalDebt)];
       const companyHealthCalculator = new Company(projects);
-      expect(companyHealthCalculator.calculateHealthScore()).toEqual(16.67);
+      expect(companyHealthCalculator.calculateHealthScore().value).toBeCloseTo(
+        16.67,
+      );
     });
   });
 });

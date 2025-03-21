@@ -17,9 +17,7 @@ describe('CodeQualityService', () => {
     };
 
     const tehcDebtProvider: TechnicalDebtProvider = {
-      getTechnicalDebtFromProject: function (
-        project: string,
-      ): Promise<TechnicalDebt> {
+      getTechnicalDebtFromProject(): Promise<TechnicalDebt> {
         return Promise.resolve(new TechnicalDebt(60));
       },
     };
@@ -33,11 +31,11 @@ describe('CodeQualityService', () => {
       'test',
     );
 
-    expect(qualityMeasures).toEqual({
-      value: 16.67,
-      technicalDebt: 1,
-      projects: ['test'],
-    });
+    expect(qualityMeasures.items).toHaveLength(1);
+    const item = qualityMeasures.items[0];
+    expect(item.value).toBeCloseTo(16.67);
+    expect(item.technicalDebt).toBe(1);
+    expect(item.project).toBe('test');
   });
 
   test('Should generate value with project key', async () => {
@@ -52,9 +50,7 @@ describe('CodeQualityService', () => {
     };
 
     const tehcDebtProvider: TechnicalDebtProvider = {
-      getTechnicalDebtFromProject: function (
-        project: string,
-      ): Promise<TechnicalDebt> {
+      getTechnicalDebtFromProject(): Promise<TechnicalDebt> {
         return Promise.resolve(new TechnicalDebt(60));
       },
     };
@@ -69,11 +65,11 @@ describe('CodeQualityService', () => {
       'test',
     );
 
-    expect(qualityMeasures).toEqual({
-      value: 16.67,
-      technicalDebt: 1,
-      projects: ['test'],
-    });
+    expect(qualityMeasures.items).toHaveLength(1);
+    const item = qualityMeasures.items[0];
+    expect(item.value).toBeCloseTo(16.67);
+    expect(item.technicalDebt).toBe(1);
+    expect(item.project).toBe('test');
   });
 
   test('Should generate value with coverage 0', async () => {
@@ -88,9 +84,7 @@ describe('CodeQualityService', () => {
     };
 
     const tehcDebtProvider: TechnicalDebtProvider = {
-      getTechnicalDebtFromProject: function (
-        project: string,
-      ): Promise<TechnicalDebt> {
+      getTechnicalDebtFromProject(): Promise<TechnicalDebt> {
         return Promise.resolve(new TechnicalDebt(120));
       },
     };
@@ -104,11 +98,11 @@ describe('CodeQualityService', () => {
       'test',
     );
 
-    expect(qualityMeasures).toEqual({
-      value: 0,
-      technicalDebt: 2,
-      projects: ['test'],
-    });
+    expect(qualityMeasures.items).toHaveLength(1);
+    const item = qualityMeasures.items[0];
+    expect(item.value).toBeCloseTo(0);
+    expect(item.technicalDebt).toBe(2);
+    expect(item.project).toBe('test');
   });
 
   test('Should throw error', async () => {
@@ -123,9 +117,7 @@ describe('CodeQualityService', () => {
     };
 
     const tehcDebtProvider: TechnicalDebtProvider = {
-      getTechnicalDebtFromProject: function (
-        project: string,
-      ): Promise<TechnicalDebt> {
+      getTechnicalDebtFromProject(): Promise<TechnicalDebt> {
         return Promise.resolve(new TechnicalDebt(60));
       },
     };
